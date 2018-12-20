@@ -53,7 +53,7 @@ class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
     }
 
     /**
-     * 判断入口
+     * 缓存前置操作
      */
     public static function Start()
     {
@@ -63,8 +63,13 @@ class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
 			return '';
 			}
 		else{
-			$expire = 2592000;
-			$file=__DIR__."/cache/".md5($_SERVER["REQUEST_URI"]).".html";//路径
+			$expire = 7776000;
+			$files=mb_substr(md5($_SERVER["REQUEST_URI"]),0,2);
+			$file=__DIR__."/cache/".$files."/".md5($_SERVER["REQUEST_URI"]).".html";//文件路径
+			$dir=__DIR__."/cache/".$files."/";//缓存目录
+				if(!file_exists($dir)) {
+					mkdir($dir,0777,true);
+				} 		
 			if (file_exists($file)) {
 				$file_time = @filemtime($file);
 				if(time()-$file_time<$expire){
@@ -81,7 +86,7 @@ class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
     }
 	
     /**
-     * 缓存操作
+     * 缓存后置操作
      */
     public static function Ends()
     {
@@ -89,7 +94,8 @@ class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
 	if(self::needCache($_SERVER["REQUEST_URI"])){
 		return '';
 		}else{
-	$file=__DIR__."/cache/".md5($_SERVER["REQUEST_URI"]).".html";//路径
+	$files=mb_substr(md5($_SERVER["REQUEST_URI"]),0,2);
+	$file=__DIR__."/cache/".$files."/".md5($_SERVER["REQUEST_URI"]).".html";//文件路径
 	$html=ob_get_contents()."<!--TpHtmlCache ".date("Y-m-d h:i:s")."-->";
 		file_put_contents($file,$html);
 		}
