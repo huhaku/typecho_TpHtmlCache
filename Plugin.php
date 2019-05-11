@@ -6,14 +6,14 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  *
  * @package TpHtmlCache
  * @author huhaku
- * @version 1.0.0
- * @link http://www.phpgao.com
+ * @version 1.1.0
+ * @link https://ggdog.info
  */
 class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
 {
 	public static function recursiveDelete($dir)
 	{    
-		 // 打开指定目录
+		 
 	   if ($handle = @opendir($dir))
 	   {
 		 while (($file = readdir($handle)) !== false)
@@ -24,12 +24,11 @@ class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
 			 }
 			 if (is_dir($dir . '/' . $file))
 			 {
-			   // 递归
 			   recursiveDelete($dir . '/' . $file);
 			 }
 			 else
 			 {
-			   unlink($dir . '/' . $file); // 删除文件
+			   unlink($dir . '/' . $file); 
 			 }
 		 }
 		 @closedir($handle);
