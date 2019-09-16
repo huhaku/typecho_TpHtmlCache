@@ -11,7 +11,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  */
 class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
 {
-	public static function recursiveDelete($dir)
+	/* public static function recursiveDelete($dir)
 	{    
 		 
 	   if ($handle = @opendir($dir))
@@ -34,7 +34,7 @@ class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
 		 @closedir($handle);
 		 rmdir ($dir); 
 	   }
-	}
+	} */
 	
     public static function activate()
     {
@@ -62,8 +62,8 @@ class TpHtmlCache_Plugin implements Typecho_Plugin_Interface
      */
     public static function deactivate()
     {
-		self::recursiveDelete(__DIR__."/cache/");
-		return '缓存清除成功';
+		// self::recursiveDelete(__DIR__."/cache/");
+		return '插件卸载成功,请手动清理缓存目录';
     }
 
     /**
